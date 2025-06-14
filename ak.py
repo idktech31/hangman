@@ -1,0 +1,43 @@
+import random
+
+def get_word():
+    words = ["python", "sigma", "hangman", "github", "programming", "openai", "developer", "repository"]
+    return random.choice(words).upper()
+
+def display(word, guesses):
+    return " ".join([letter if letter in guesses else "_" for letter in word])
+
+def hangman():
+    word = get_word()
+    guessed = set()
+    tries = 6
+
+    print("Welcome to Hangman!")
+    print(display(word, guessed))
+
+    while tries > 0 and set(word) - guessed:
+        guess = input("Guess a letter: ").upper()
+        if not guess.isalpha() or len(guess) != 1:
+            print("Please enter a single alphabetic character.")
+            continue
+        if guess in guessed:
+            print("You already guessed that letter.")
+            continue
+
+        guessed.add(guess)
+
+        if guess in word:
+            print(f"Good job! {guess} is in the word.")
+        else:
+            tries -= 1
+            print(f"Sorry, {guess} is not in the word. Tries left: {tries}")
+
+        print(display(word, guessed))
+
+    if set(word) - guessed == set():
+        print(f"Congratulations! You guessed the word: {word}")
+    else:
+        print(f"Game over! The word was: {word}")
+
+if __name__ == "__main__":
+    hangman()
